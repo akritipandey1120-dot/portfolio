@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<!-- © 2026 Akriti Pandey. All rights reserved. The Pre-Flight Files: text, design, code and portrait. -->
+<html lang="en" class="locked">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="author" content="Akriti Pandey">
+<meta name="copyright" content="© 2026 Akriti Pandey. All rights reserved.">
+<title>The Pre-Flight Files — Akriti Pandey (Cadet)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600&family=Special+Elite&display=swap">
+<style>
+  /* ============ TOKENS ============ */
+  :root {
+    --sky-top: #7fb2e5;
+    --sky-bottom: #dcebf8;
+    --ink: #0b2545;
+    --ink-soft: #35506e;
+    --blue: #003366;
+    --steel: #708090;
+    --gold: #c9a227;
+    --card: rgba(255,255,255,.82);
+    --card-line: rgba(0,51,102,.18);
+    --paper: #f5f1e3;
+    --cloud: rgba(255,255,255,.75);
+    --watch-face: rgba(255,255,255,.7);
+    --watch-ink: #003366;
+    --plane: #1c3f6e;
+    --contrail: rgba(255,255,255,.75);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --sky-top: #06142b; --sky-bottom: #1b3a66;
+      --ink: #eaf2fb; --ink-soft: #b7c8dc;
+      --card: rgba(8,24,48,.78); --card-line: rgba(201,162,39,.35);
+      --paper: #16233a; --cloud: rgba(180,205,235,.16);
+      --watch-face: rgba(10,30,60,.65); --watch-ink: #e8d48a;
+      --plane: #cfe0f4; --contrail: rgba(207,224,244,.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --sky-top: #06142b; --sky-bottom: #1b3a66;
+    --ink: #eaf2fb; --ink-soft: #b7c8dc;
+    --card: rgba(8,24,48,.78); --card-line: rgba(201,162,39,.35);
+    --paper: #16233a; --cloud: rgba(180,205,235,.16);
+    --watch-face: rgba(10,30,60,.65); --watch-ink: #e8d48a;
+    --plane: #cfe0f4; --contrail: rgba(207,224,244,.35);
+  }
+
+  * { box-sizing: border-box; }
+  :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  html { scroll-behavior: smooth; scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body {
+    margin: 0;
+    background: linear-gradient(180deg, var(--sky-top), var(--sky-bottom)) fixed;
+    color: var(--ink);
+    font-family: "Montserrat", "Segoe UI", Roboto, Arial, sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  h1, h2, h3 { font-family: "Bebas Neue", Oswald, Impact, "Arial Narrow", sans-serif; font-weight: 400; letter-spacing: .04em; margin: 0; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+  /* ============ BACKGROUND LAYERS ============ */
+  .sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .cloud { position: absolute; background: var(--cloud); border-radius: 100px; filter: blur(2px); animation: drift linear infinite; }
+  .cloud::before, .cloud::after { content: ""; position: absolute; background: inherit; border-radius: 50%; }
+  .cloud::before { width: 55%; height: 160%; left: 12%; top: -70%; }
+  .cloud::after { width: 40%; height: 130%; right: 14%; top: -45%; }
+  @keyframes drift { from { transform: translateX(-30vw); } to { transform: translateX(130vw); } }
+
+  .plane { position: absolute; left: 0; top: 0; will-change: transform; color: var(--plane); }
+  .plane svg { width: 100%; height: 100%; overflow: visible; }
+  .plane .trail { position: absolute; right: 88%; top: 46%; height: 3px; width: 200px; border-radius: 3px; background: linear-gradient(270deg, var(--contrail), transparent); }
+
+  /* mini watches */
+  #watches { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  .mini-watch { position: absolute; display: flex; flex-direction: column; align-items: center; opacity: .55; animation: bob 7s ease-in-out infinite; }
+  .mini-watch svg { display: block; }
+  .mini-watch .digi { font-family: "Special Elite", "Courier New", monospace; font-size: 11px; color: var(--watch-ink); margin-top: 2px; letter-spacing: .05em; }
+  @keyframes bob { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-14px) rotate(3deg); } }
+
+  /* ============ LAYOUT ============ */
+  main { position: relative; z-index: 1; }
+  section { max-width: 1040px; margin: 0 auto; padding: 84px 24px; }
+  .card { background: var(--card); border: 1px solid var(--card-line); border-radius: 6px; padding: 36px clamp(22px, 4vw, 44px); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .kicker { font-family: "Special Elite", "Courier New", monospace; font-size: .85rem; color: var(--steel); letter-spacing: .08em; }
+  h2 { font-size: clamp(2.2rem, 5vw, 3.4rem); color: var(--blue); line-height: 1; margin: 6px 0 20px; }
+  :root:not([data-theme="light"]) h2 { color: var(--ink); }
+  p { max-width: 68ch; margin: 0 0 1em; }
+  .lead { font-size: 1.15rem; }
+
+  nav { position: sticky; top: 0; z-index: 5; display: flex; gap: 6px 18px; flex-wrap: wrap; justify-content: center; padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 10px; background: var(--card); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--card-line); font-size: .78rem; }
+  nav a { text-decoration: none; padding: 4px 2px; border-bottom: 2px solid transparent; }
+  nav a:hover { border-color: var(--gold); }
+  #themeBtn { background: none; border: 1px solid var(--card-line); color: inherit; border-radius: 20px; padding: 2px 12px; cursor: pointer; font: inherit; }
+
+  /* ============ HERO ============ */
+  .hero { min-height: 92vh; display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
+  .hero h1 { font-size: clamp(3.4rem, 10vw, 7.2rem); line-height: .9; color: var(--blue); }
+  :root:not([data-theme="light"]) .hero h1 { color: #fff; }
+  .hero h1 span { display: block; color: var(--gold); font-size: .5em; letter-spacing: .12em; }
+  .who { font-size: 1.05rem; margin: 0 0 8px; color: var(--ink); }
+  .tagline { font-size: 1.25rem; margin: 22px 0 26px; }
+  .clockcard { display: inline-block; border: 2px solid var(--gold); border-radius: 6px; padding: 12px 22px; background: var(--card); }
+  .clockcard .big { font-family: "Special Elite", "Courier New", monospace; font-size: clamp(1.8rem, 5vw, 2.6rem); color: var(--blue); line-height: 1.1; }
+  :root:not([data-theme="light"]) .clockcard .big { color: var(--gold); }
+  .clockcard small { display: block; color: var(--ink-soft); font-size: .78rem; }
+  .btn { display: inline-block; margin-top: 22px; padding: 12px 28px; background: var(--blue); color: #fff; text-decoration: none; border-radius: 3px; font-family: "Bebas Neue", Impact, sans-serif; letter-spacing: .1em; font-size: 1.25rem; border: 2px solid var(--gold); cursor: pointer; }
+
+  .portrait-wrap { position: relative; max-width: 380px; margin-inline: auto; }
+  .portrait { width: 100%; aspect-ratio: 3 / 4; border-radius: 180px 180px 10px 10px; border: 4px solid var(--gold); overflow: hidden; background: #a9d1f5; box-shadow: 0 18px 40px rgba(0,30,70,.35); }
+  .portrait svg, .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; display: block; }
+  .upload { display: block; text-align: center; margin-top: 12px; font-size: .78rem; color: var(--ink-soft); cursor: pointer; }
+  .upload input { display: none; }
+  .upload span { text-decoration: underline; }
+
+  /* ============ CONTENT PIECES ============ */
+  .quote { border-left: 4px solid var(--gold); padding: 6px 0 6px 18px; font-size: 1.2rem; font-style: italic; margin: 20px 0; max-width: 60ch; }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin: 22px 0; }
+  .facts div { border: 1px solid var(--card-line); border-radius: 4px; padding: 12px 16px; background: rgba(255,255,255,.35); }
+  .facts b { display: block; font-family: "Special Elite", "Courier New", monospace; font-weight: 400; color: var(--steel); font-size: .8rem; }
+  ul.plain { padding-left: 1.2em; max-width: 60ch; }
+  ul.plain li { margin-bottom: 6px; }
+
+  .traits { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .trait { padding: 16px 18px; border-top: 4px solid var(--blue); background: rgba(255,255,255,.3); }
+  .trait h3 { font-size: 1.6rem; color: var(--blue); }
+  :root:not([data-theme="light"]) .trait h3 { color: var(--gold); }
+  .trait p { margin: 4px 0 0; font-size: .95rem; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 26px 18px; justify-content: center; }
+  .tag { position: relative; width: 170px; padding: 26px 14px 18px; text-align: center; border-radius: 40px 40px 14px 14px; background: linear-gradient(145deg, #e9eef4, #97a4b3 55%, #d6dde6); color: #0b2545; border: 2px solid #5d6b7b; box-shadow: 0 8px 18px rgba(0,30,70,.3), inset 0 2px 0 rgba(255,255,255,.7); }
+  .tag::before { content: ""; position: absolute; top: 9px; left: 50%; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: var(--sky-top); border: 2px solid #5d6b7b; }
+  .tag h3 { font-size: 1.7rem; margin-top: 8px; letter-spacing: .1em; }
+  .tag p { font-size: .8rem; line-height: 1.4; margin: 6px 0 0; }
+
+  .gauges { display: grid; gap: 16px; }
+  .gauge { display: grid; grid-template-columns: 130px 1fr 90px; gap: 14px; align-items: center; }
+  .gauge .bar { height: 16px; background: rgba(0,51,102,.15); border: 1px solid var(--card-line); border-radius: 10px; overflow: hidden; }
+  .gauge .fill { height: 100%; width: 0; border-radius: 10px; transition: width 1.4s cubic-bezier(.2,.8,.2,1); }
+  .gauge .st { font-family: "Special Elite", "Courier New", monospace; font-size: .85rem; display: flex; align-items: center; gap: 6px; }
+  .gauge .st i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .red { background: #d64545; } .amber { background: #e5a520; } .green { background: #35a86a; }
+
+  .logbook { background: var(--paper); border: 1px solid var(--card-line); border-radius: 4px; overflow: hidden; }
+  .log-row { display: grid; grid-template-columns: 110px 1fr; gap: 16px; padding: 14px 22px; border-bottom: 1px dashed var(--steel); font-family: "Special Elite", "Courier New", monospace; }
+  .log-row:last-child { border-bottom: 0; }
+  .log-row b { color: var(--gold); letter-spacing: .05em; }
+  :root:not([data-theme="light"]) .log-row b { color: var(--gold); }
+
+  .officers { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+  .officer { padding: 18px; border: 1px solid var(--card-line); border-radius: 4px; background: rgba(255,255,255,.3); }
+  .officer h3 { font-size: 1.5rem; color: var(--blue); line-height: 1.1; margin-bottom: 8px; }
+  :root:not([data-theme="light"]) .officer h3 { color: var(--gold); }
+  .officer ul { margin: 0; padding-left: 1.1em; font-size: .9rem; }
+  .officer li { margin-bottom: 5px; }
+
+  .closing { text-align: center; }
+  .closing h2 { font-size: clamp(2.4rem, 7vw, 4.6rem); }
+  .runway { height: 90px; margin: 26px auto 0; max-width: 460px; background: repeating-linear-gradient(90deg, var(--gold) 0 14px, transparent 14px 44px); mask-image: linear-gradient(180deg, #000, transparent); -webkit-mask-image: linear-gradient(180deg, #000, transparent); transform: perspective(200px) rotateX(55deg); animation: lights 1.6s steps(2) infinite; }
+  @keyframes lights { 50% { opacity: .35; } }
+  footer { position: relative; z-index: 1; text-align: center; padding: 40px 20px 60px; font-size: .85rem; color: var(--ink-soft); }
+  .copyright { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--card-line); font-size: .8rem; max-width: 60ch; margin-inline: auto; }
+  .portrait img { -webkit-user-drag: none; user-select: none; }
+  html.locked main, html.locked nav, html.locked footer { display: none; }
+  #gate { display: none; position: fixed; inset: 0; z-index: 50; align-items: center; justify-content: center; padding: 24px; }
+  html.locked #gate { display: flex; }
+  .gate-card { width: 100%; max-width: 420px; text-align: center; background: var(--card); border: 2px solid var(--gold); border-radius: 6px; padding: 34px 28px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .gate-card h1 { font-size: 2.6rem; color: var(--blue); line-height: 1; margin: 6px 0 10px; }
+  :root:not([data-theme="light"]) .gate-card h1 { color: #fff; }
+  .gate-card p { margin-inline: auto; font-size: .95rem; }
+  .gate-card input { width: 100%; padding: 12px 14px; margin: 10px 0 4px; border: 2px solid var(--steel); border-radius: 4px; font: inherit; background: #fff; color: #0b2545; }
+  .gate-card .btn { width: 100%; margin-top: 12px; }
+  #gateMsg { min-height: 1.4em; color: #c0392b; font-size: .85rem; margin: 4px 0 0; }
+  footer .quote { margin-inline: auto; text-align: left; }
+
+  @media (max-width: 800px) {
+    .hero { grid-template-columns: 1fr; padding-top: 40px; }
+    .gauge { grid-template-columns: 96px 1fr; }
+    .gauge .st { grid-column: 2; }
+    .log-row { grid-template-columns: 1fr; gap: 2px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cloud, .mini-watch, .runway { animation: none !important; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- reusable jet shape -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="jet" viewBox="0 0 120 50">
+      <path fill="currentColor" d="M118 25 L96 21 L70 20 L46 4 L38 4 L50 20 L22 20 L10 8 L4 8 L10 24 L4 25 L10 26 L4 42 L10 42 L22 30 L50 30 L38 46 L46 46 L70 30 L96 29 Z"/>
+      <path fill="#c9a227" d="M96 21 L110 23.4 L110 26.6 L96 29 Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="sky" aria-hidden="true" id="sky"></div>
+<div id="watches" aria-hidden="true"></div>
+
+<div id="gate" role="dialog" aria-labelledby="gateTitle">
+  <div class="gate-card">
+    <p class="kicker">Restricted briefing</p>
+    <h1 id="gateTitle">Clearance required</h1>
+    <p>This portfolio is private. Enter the access code to open The Pre-Flight Files.</p>
+    <input id="gatePw" type="password" placeholder="Access code" autocomplete="off" aria-label="Access code">
+    <p id="gateMsg" role="alert"></p>
+    <button class="btn" id="gateBtn" type="button">Unlock</button>
+  </div>
+</div>
+
+<nav aria-label="Sections">
+  <a href="#top">Cover</a><a href="#briefing">Briefing</a><a href="#origin">Origin</a><a href="#training">Training</a><a href="#dream">Dream</a><a href="#person">Person</a><a href="#tags">Dog tags</a><a href="#checklist">Checklist</a><a href="#log">Flight log</a><a href="#lineage">Lineage</a>
+  <button id="themeBtn" type="button" aria-label="Switch between day and night sky">Day / Night</button>
+</nav>
+
+<main id="top">
+
+  <!-- COVER -->
+  <section class="hero">
+    <div>
+      <p class="kicker">Beyond the time · Cleared for takeoff</p>
+      <p class="who"><strong>Akriti Pandey</strong> · Call sign Cadet · BCA 1st year</p>
+      <h1>The Pre-Flight Files<span>Cadet</span></h1>
+      <p class="tagline">No flight hours yet. But the runway is already mine.</p>
+      <div class="clockcard" role="timer" aria-live="off">
+        <div class="big" id="bigClock">--:--:--</div>
+        <small id="bigDate">Reading your local time…</small>
+        <small id="loginStamp"></small>
+      </div>
+      <br>
+      <a class="btn" href="#briefing">Begin the briefing</a>
+    </div>
+
+    <div class="portrait-wrap">
+      <div class="portrait" id="portrait" oncontextmenu="return false;">
+        <img id="portraitImg" alt="Ghibli-style portrait of the cadet in Air Force uniform, smiling on the flight line at sunset, jets overhead" src="portrait.jpg">
+      </div>
+      <label class="upload">
+        Want to swap the picture? <span>Upload another image</span>
+        <input type="file" id="portraitFile" accept="image/*">
+      </label>
+    </div>
+  </section>
+
+  <!-- BRIEFING -->
+  <section id="briefing">
+    <div class="card">
+      <p class="kicker">Mission briefing</p>
+      <h2>Earn the uniform. Serve the sky.</h2>
+      <div class="facts">
+        <div><b>Name</b>Akriti Pandey</div>
+        <div><b>Call sign</b>Cadet</div>
+        <div><b>Status</b>Pre-flight</div>
+        <div><b>Qualification</b>BCA (Bachelor of Computer Applications), 1st year</div>
+        <div><b>Mission</b>Become the person the cockpit demands</div>
+      </div>
+      <p class="quote">I didn't start with a cockpit. I started with a dream that felt too big for the room I was standing in.</p>
+      <p class="lead">Outspoken since day one. Extroverted to a fault. The kind of person who feels everything loudly — joy, fear, doubt, hope. I laugh hard, I care harder, and I don't know how to do anything halfway.</p>
+      <p>I looked at the sky and decided: that's where I'm going.</p>
+    </div>
+  </section>
+
+  <!-- ORIGIN -->
+  <section id="origin">
+    <div class="card">
+      <p class="kicker">Mission 01</p>
+      <h2>Origin</h2>
+      <p>I didn't come from a family of officers. I didn't grow up around airfields or uniforms. What I had was a direction — and a stubborn refusal to look away from it.</p>
+      <p>I am loyal to the people who matter. Outspoken when something needs to be said. Emotional — and I used to think that was a weakness, until I realized it's fuel.</p>
+      <p>I question myself constantly. And then I do it anyway.</p>
+      <p class="lead">That's where this story starts. Not with achievements. With aim.</p>
+    </div>
+  </section>
+
+  <!-- TRAINING -->
+  <section id="training">
+    <div class="card">
+      <p class="kicker">Mission 02</p>
+      <h2>Training ground</h2>
+      <p>Right now, I'm building. Not there yet — building.</p>
+      <ul class="plain">
+        <li>Learning discipline when motivation runs out</li>
+        <li>Showing up when nobody's watching</li>
+        <li>Failing at things I thought I'd be good at</li>
+        <li>Getting back up anyway</li>
+      </ul>
+      <p>Alongside the dream, I'm in the first year of my BCA — learning how technology works while I train myself for the sky.</p>
+      <p>Some days I'm confident. Some days I'm convinced I'm not enough. Both are true. I keep moving regardless.</p>
+      <p>This is the unglamorous part. No medals here. Just late nights, small wins, and a stubborn refusal to quit.</p>
+    </div>
+  </section>
+
+  <!-- DREAM -->
+  <section id="dream">
+    <div class="card">
+      <p class="kicker">Mission 03</p>
+      <h2>The dream</h2>
+      <p class="lead">The Air Force isn't just a career goal for me. It's a direction.</p>
+      <p>It's the thing that makes me wake up early, push harder, and hold myself to a standard I haven't reached yet. It's the reason I care about discipline, loyalty, and showing up even when I'm scared.</p>
+      <p>I want to wear that uniform not because it looks good — but because of what it means. Honor. Service. Something bigger than me.</p>
+    </div>
+  </section>
+
+  <!-- PERSON -->
+  <section id="person">
+    <div class="card">
+      <p class="kicker">Mission 04</p>
+      <h2>The person</h2>
+      <div class="traits">
+        <div class="trait"><h3>Loyal</h3><p>To the people who matter, always.</p></div>
+        <div class="trait"><h3>Outspoken</h3><p>I say what I feel. Sometimes too much. I'm working on it. Mostly.</p></div>
+        <div class="trait"><h3>Emotional</h3><p>I feel deeply. I used to think that was a weakness. Now I know it's fuel.</p></div>
+        <div class="trait"><h3>Hardworking</h3><p>Not because I'm naturally the best, but because I refuse to be the one who gave up.</p></div>
+        <div class="trait"><h3>Self-doubting, persistent</h3><p>I question myself constantly. And then I do it anyway.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOG TAGS -->
+  <section id="tags">
+    <div class="card">
+      <p class="kicker">Core values</p>
+      <h2>Dog tags</h2>
+      <div class="tags">
+        <div class="tag"><h3>Loyalty</h3><p>To people, to purpose, to the mission</p></div>
+        <div class="tag"><h3>Courage</h3><p>Not the absence of fear — action despite it</p></div>
+        <div class="tag"><h3>Honesty</h3><p>With others, and especially with myself</p></div>
+        <div class="tag"><h3>Persistence</h3><p>Falling seven times, standing up eight</p></div>
+        <div class="tag"><h3>Heart</h3><p>The thing that makes all of it matter</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECKLIST -->
+  <section id="checklist">
+    <div class="card">
+      <p class="kicker">Skills and growth</p>
+      <h2>Pre-flight checklist</h2>
+      <div class="gauges" id="gauges">
+        <div class="gauge" data-v="40" data-c="amber"><span>Discipline</span><div class="bar"><div class="fill amber"></div></div><span class="st"><i class="amber"></i>Building</span></div>
+        <div class="gauge" data-v="30" data-c="red"><span>Fitness</span><div class="bar"><div class="fill red"></div></div><span class="st"><i class="red"></i>Starting</span></div>
+        <div class="gauge" data-v="70" data-c="amber"><span>Courage</span><div class="bar"><div class="fill amber"></div></div><span class="st"><i class="amber"></i>Growing</span></div>
+        <div class="gauge" data-v="100" data-c="green"><span>Loyalty</span><div class="bar"><div class="fill green"></div></div><span class="st"><i class="green"></i>Full</span></div>
+        <div class="gauge" data-v="100" data-c="green"><span>Dream</span><div class="bar"><div class="fill green"></div></div><span class="st"><i class="green"></i>Full</span></div>
+        <div class="gauge" data-v="100" data-c="green"><span>Persistence</span><div class="bar"><div class="fill green"></div></div><span class="st"><i class="green"></i>Full</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLIGHT LOG -->
+  <section id="log">
+    <div class="card">
+      <p class="kicker">Milestones</p>
+      <h2>Flight log</h2>
+      <div class="logbook">
+        <div class="log-row"><b>Day 0</b><span>Decided the sky was the goal</span></div>
+        <div class="log-row"><b>Week 1</b><span>First doubt. First "am I crazy?" moment.</span></div>
+        <div class="log-row"><b>Month 1</b><span>Still here. Still aiming up.</span></div>
+        <div class="log-row"><b>Now</b><span>Building. Quietly. Stubbornly.</span></div>
+        <div class="log-row"><b>Next</b><span>The real mission begins.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LINEAGE -->
+  <section id="lineage">
+    <div class="card">
+      <p class="kicker">Inspired by</p>
+      <h2>Flight lineage</h2>
+      <p>This character is built on the shoulders of real officers who walked this path before.</p>
+      <div class="officers">
+        <div class="officer"><h3>Air Marshal Prithi Singh</h3><ul>
+          <li>Flew about 102 aircraft types and 120+ versions — an IAF record</li>
+          <li>40 years of service, 6,300+ hours without a single avoidable accident</li>
+          <li>Param Vishisht Seva Medal, Ati Vishisht Seva Medal, Vayu Sena Medal (Bar)</li></ul></div>
+        <div class="officer"><h3>Wing Commander Padmanabha Gautam</h3><ul>
+          <li>Six missions in the 1971 war, low-level raids at 100 feet under heavy fire</li>
+          <li>Bar to Maha Vir Chakra for gallantry</li>
+          <li>Never stopped learning — died converting to a new aircraft in 1972</li></ul></div>
+        <div class="officer"><h3>Wing Commander Vyomika Singh</h3><ul>
+          <li>IAF's first woman helicopter pilot to earn the 'Master Greencard' rating</li>
+          <li>Certified parajumper, mountaineer, sea sailor, scuba diver</li>
+          <li>Scaled Mt Manirang (21,631 ft), won 8 golds in athletics</li></ul></div>
+        <div class="officer"><h3>Group Captain Abhinandan Varthaman</h3><ul>
+          <li>Shot down a Pakistani F-16 in 2019, captured, returned after 3 days</li>
+          <li>Awarded the Vir Chakra</li>
+          <li>Grace under pressure became his signature</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEXT + CLOSING -->
+  <section>
+    <div class="card">
+      <p class="kicker">Mission 05</p>
+      <h2>Next</h2>
+      <p>I don't have the rank yet. No stripes on my sleeve, no wings on my chest.</p>
+      <p>But I have the aim. And in this competition, that's what I'm putting on the table — not where I am, but where I'm going, and the person I'm becoming on the way there.</p>
+      <p class="lead">This is the pre-flight. The real mission hasn't even started.</p>
+    </div>
+  </section>
+
+  <section class="closing">
+    <p class="kicker">End of briefing</p>
+    <h2>Cadet — cleared for takeoff.<br>Awaiting orders.</h2>
+    <div class="runway" aria-hidden="true"></div>
+  </section>
+</main>
+
+<footer>
+  <p class="kicker">Pilot's log</p>
+  <p>Akriti Pandey · Call sign: Cadet · Status: Pre-flight · Mission: Air Force officer</p>
+  <p>Education: BCA (Bachelor of Computer Applications), 1st year</p>
+  <p>Core values: Loyalty, Courage, Honesty, Persistence, Heart</p>
+  <p class="quote">I don't need the rank to start acting like an officer. I need the aim — and I've got it.</p>
+  <p class="copyright">© 2026 Akriti Pandey. All rights reserved.<br>The writing, design, code and portrait on this page are original work and may not be copied, reused or republished without written permission.</p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Sky: clouds + flying planes ---------- */
+  var sky = document.getElementById("sky");
+  var i, el;
+  for (i = 0; i < 7; i++) {
+    el = document.createElement("div");
+    el.className = "cloud";
+    var w = 140 + Math.random() * 180;
+    el.style.cssText = "width:" + w + "px;height:" + (w * 0.22) + "px;top:" + (Math.random() * 85) + "%;animation-duration:" + (90 + Math.random() * 90) + "s;animation-delay:-" + (Math.random() * 120) + "s;";
+    sky.appendChild(el);
+  }
+  /* Planes fly diagonally: each one starts at one edge/corner of the sky and travels in a straight
+     diagonal to the opposite side, then relaunches from a new random diagonal after a short pause. */
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var W = window.innerWidth, H = window.innerHeight;
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+  var planes = [];
+
+  function launch(p, firstTime) {
+    var m = 220;                                   // start/end just outside the screen
+    var fromLeft = Math.random() < 0.5;            // which side it starts from
+    var climbing = Math.random() < 0.5;            // bottom -> top, or top -> bottom
+    var sx = fromLeft ? -m : W + m;
+    var ex = fromLeft ? W + m : -m;
+    var sy = climbing ? rnd(0.6 * H, 1.15 * H) : rnd(-0.15 * H, 0.4 * H);
+    var ey = climbing ? rnd(-0.15 * H, 0.4 * H) : rnd(0.6 * H, 1.15 * H);
+    p.x = sx; p.y = sy;
+    p.ang = Math.atan2(ey - sy, ex - sx);
+    p.speed = rnd(90, 170);                        // pixels per second
+    p.wait = firstTime ? rnd(0, 9) : rnd(0.5, 5);  // stagger the launches
+    p.el.style.opacity = 0;
+  }
+  function draw(p) {
+    p.el.style.transform = "translate(" + (p.x - p.w / 2) + "px," + (p.y - p.h / 2) + "px) rotate(" + p.ang + "rad)";
+  }
+  for (i = 0; i < 6; i++) {
+    var size = rnd(70, 140);
+    var d = document.createElement("div");
+    d.className = "plane";
+    d.style.width = size + "px";
+    d.style.height = (size * 0.42) + "px";
+    d.innerHTML = '<span class="trail"></span><svg viewBox="0 0 120 50"><use href="#jet"/></svg>';
+    sky.appendChild(d);
+    var pl = { el: d, w: size, h: size * 0.42 };
+    launch(pl, true);
+    planes.push(pl);
+  }
+  function step(dt) {
+    planes.forEach(function (p) {
+      if (p.wait > 0) { p.wait -= dt; if (p.wait <= 0) p.el.style.opacity = 1; draw(p); return; }
+      p.x += Math.cos(p.ang) * p.speed * dt;
+      p.y += Math.sin(p.ang) * p.speed * dt;
+      draw(p);
+      if (p.x < -320 || p.x > W + 320 || p.y < -320 || p.y > H + 320) launch(p, false);
+    });
+  }
+  window.addEventListener("resize", function () { W = window.innerWidth; H = window.innerHeight; });
+  if (reduce) {
+    planes.forEach(function (p, k) { p.x = W * (0.15 + 0.14 * k); p.y = H * (0.8 - 0.13 * k); p.ang = -0.6; p.el.style.opacity = 1; draw(p); });
+  } else {
+    var last = performance.now();
+    (function loop(now) {
+      var dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      step(dt);
+      requestAnimationFrame(loop);
+    })(last);
+  }
+
+  /* ---------- Mini watches: "Beyond the time" ---------- */
+  var layer = document.getElementById("watches");
+  var spots = [
+    [4, 14, 92], [86, 10, 84], [12, 42, 72], [80, 38, 100], [6, 70, 88],
+    [90, 68, 76], [46, 6, 66], [44, 88, 80], [66, 84, 70], [26, 84, 64]
+  ];
+  var NS = "http://www.w3.org/2000/svg";
+  var watches = [];
+
+  function mk(tag, attrs) {
+    var n = document.createElementNS(NS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+
+  spots.forEach(function (s, idx) {
+    var wrap = document.createElement("div");
+    wrap.className = "mini-watch";
+    wrap.style.left = s[0] + "%";
+    wrap.style.top = s[1] + "%";
+    wrap.style.animationDelay = "-" + (idx * 0.9) + "s";
+    wrap.style.animationDuration = (6 + (idx % 4)) + "s";
+
+    var svg = mk("svg", { width: s[2], height: s[2], viewBox: "0 0 100 100" });
+    svg.appendChild(mk("circle", { cx: 50, cy: 50, r: 46, fill: "var(--watch-face)", stroke: "var(--watch-ink)", "stroke-width": 4 }));
+    svg.appendChild(mk("circle", { cx: 50, cy: 50, r: 40, fill: "none", stroke: "#c9a227", "stroke-width": 1.2 }));
+    for (var t = 0; t < 12; t++) {
+      var a = t * 30 * Math.PI / 180;
+      svg.appendChild(mk("line", {
+        x1: 50 + Math.sin(a) * 34, y1: 50 - Math.cos(a) * 34,
+        x2: 50 + Math.sin(a) * 39, y2: 50 - Math.cos(a) * 39,
+        stroke: "var(--watch-ink)", "stroke-width": t % 3 === 0 ? 3 : 1.4
+      }));
+    }
+    var txt = mk("text", { x: 50, y: 33, "text-anchor": "middle", "font-size": 6.4, fill: "var(--watch-ink)", "font-family": "Montserrat, Arial, sans-serif", "letter-spacing": ".6", "font-weight": 600 });
+    txt.textContent = "BEYOND THE TIME";
+    svg.appendChild(txt);
+    var hh = mk("line", { x1: 50, y1: 50, x2: 50, y2: 30, stroke: "var(--watch-ink)", "stroke-width": 3.4, "stroke-linecap": "round" });
+    var mm = mk("line", { x1: 50, y1: 50, x2: 50, y2: 20, stroke: "var(--watch-ink)", "stroke-width": 2.4, "stroke-linecap": "round" });
+    var ss = mk("line", { x1: 50, y1: 56, x2: 50, y2: 16, stroke: "#c9a227", "stroke-width": 1.2, "stroke-linecap": "round" });
+    svg.appendChild(hh); svg.appendChild(mm); svg.appendChild(ss);
+    svg.appendChild(mk("circle", { cx: 50, cy: 50, r: 2.6, fill: "#c9a227" }));
+
+    var digi = document.createElement("div");
+    digi.className = "digi";
+    wrap.appendChild(svg);
+    wrap.appendChild(digi);
+    layer.appendChild(wrap);
+    watches.push({ hh: hh, mm: mm, ss: ss, digi: digi });
+  });
+
+  /* ---------- Clock: visitor's exact local time ---------- */
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+  var bigClock = document.getElementById("bigClock");
+  var bigDate = document.getElementById("bigDate");
+  var tz = "";
+  try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+
+  function tick() {
+    var d = new Date();
+    var h = d.getHours(), m = d.getMinutes(), s = d.getSeconds();
+    var str = pad(h) + ":" + pad(m) + ":" + pad(s);
+    bigClock.textContent = str;
+    bigDate.textContent = d.toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "long", year: "numeric" }) + (tz ? " · " + tz : "");
+    var sa = s * 6, ma = m * 6 + s * 0.1, ha = (h % 12) * 30 + m * 0.5;
+    watches.forEach(function (w) {
+      w.hh.setAttribute("transform", "rotate(" + ha + " 50 50)");
+      w.mm.setAttribute("transform", "rotate(" + ma + " 50 50)");
+      w.ss.setAttribute("transform", "rotate(" + sa + " 50 50)");
+      w.digi.textContent = str;
+    });
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  var login = new Date();
+  document.getElementById("loginStamp").textContent =
+    "Pilot logged in at " + pad(login.getHours()) + ":" + pad(login.getMinutes()) + ":" + pad(login.getSeconds());
+
+  /* ---------- Gauges animate when visible ---------- */
+  var gauges = document.querySelectorAll(".gauge");
+  function fill(g) { g.querySelector(".fill").style.width = g.getAttribute("data-v") + "%"; }
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { fill(e.target); io.unobserve(e.target); } });
+    }, { threshold: 0.4 });
+    gauges.forEach(function (g) { io.observe(g); });
+  } else { gauges.forEach(fill); }
+
+  /* ---------- Portrait: use your own Ghibli image ---------- */
+  var portrait = document.getElementById("portrait");
+  function showImage(src) {
+    var img = new Image();
+    img.alt = "Portrait of the cadet in Air Force uniform, Ghibli style";
+    img.onload = function () { portrait.innerHTML = ""; portrait.appendChild(img); };
+    img.src = src;
+  }
+  // Option B: upload it with the link under the picture.
+  try { var saved = localStorage.getItem("cadet-portrait"); if (saved) showImage(saved); } catch (e) {}
+  document.getElementById("portraitFile").addEventListener("change", function (ev) {
+    var f = ev.target.files && ev.target.files[0];
+    if (!f) return;
+    var r = new FileReader();
+    r.onload = function () {
+      showImage(r.result);
+      try { localStorage.setItem("cadet-portrait", r.result); } catch (e) {}
+    };
+    r.readAsDataURL(f);
+  });
+
+  /* ---------- Day / night toggle ---------- */
+  document.getElementById("themeBtn").addEventListener("click", function () {
+    var root = document.documentElement;
+    var dark = root.getAttribute("data-theme") === "dark" ||
+      (!root.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", dark ? "light" : "dark");
+  });
+})();
+</script>
+<script>
+(function () {
+  "use strict";
+function hashPw(str) {
+  var s = "prefl1ght:" + str, a = 0xdeadbeef, b = 0x41c6ce57, i, c;
+  for (i = 0; i < s.length; i++) { c = s.charCodeAt(i); a = Math.imul(a ^ c, 2654435761); b = Math.imul(b ^ c, 1597334677); }
+  a = Math.imul(a ^ (a >>> 16), 2246822507) ^ Math.imul(b ^ (b >>> 13), 3266489909);
+  b = Math.imul(b ^ (b >>> 16), 2246822507) ^ Math.imul(a ^ (a >>> 13), 3266489909);
+  return (4294967296 * (2097151 & b) + (a >>> 0)).toString(36);
+}
+
+  var OK = "oxc34tisyc";
+  var root = document.documentElement;
+  function unlock() { root.classList.remove("locked"); }
+  try { if (sessionStorage.getItem("pf-ok") === OK) unlock(); } catch (e) {}
+  var input = document.getElementById("gatePw"), msg = document.getElementById("gateMsg");
+  function tryUnlock() {
+    if (hashPw(input.value) === OK) {
+      try { sessionStorage.setItem("pf-ok", OK); } catch (e) {}
+      unlock();
+    } else {
+      msg.textContent = "Access denied. Check the code and try again.";
+      input.select();
+    }
+  }
+  document.getElementById("gateBtn").addEventListener("click", tryUnlock);
+  input.addEventListener("keydown", function (e) { if (e.key === "Enter") tryUnlock(); });
+})();
+</script>
+</body>
+</html>
